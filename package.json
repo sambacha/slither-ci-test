@@ -1,0 +1,45 @@
+{
+  "name": "create-eth-enterprise",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/sambacha/create-eth-enterprise.git",
+  "author": "${GITHUB_USER} <${USERNAME}@${EMAIL}.com>",
+  "license": "SEE LICENSE IN LICENSE",
+  "scripts": {
+    "compile": "yarn truffle compile && yarn typechain --target truffle './build/**/*.json'",
+    "flatten": "./node_modules/.bin/poa-solidity-flattener $PWD/contracts/**/*.sol",
+    "coverage": "yarn compile && yarn truffle run coverage",
+    "test": "yarn compile && yarn truffle test",
+    "deploy": "truffle migrate --skipDryRun --network $NETWORK",
+    "verify": "truffle run verify --network $NETWORK",
+    "oz": "rm -rf build && yarn oz compile",
+    "mocha": "yarn compile && yarn mocha -r ts-node/register ./test/**/*.test.ts --exit --recursive",
+    "oz-run": "yarn oz deploy",
+    "prettier:solidity": "npx prettier --write contracts/*.sol"
+  },
+  "devDependencies": {
+    "@poanet/solidity-flattener": "^3.0.6",
+    "bn.js": "^4.11.9",
+    "chai": "^4.2.0",
+    "chai-bn": "^0.2.1",
+    "eslint": "^7.11.0",
+    "prettier": "^2.0.0",
+    "prettier-plugin-solidity": "^1.0.0-alpha.59",
+    "shelljs": "^0.8.4",
+    "solhint-plugin-prettier": "0.0.5",
+    "solidity-coverage": "^0.7.7",
+    "truffle": "^5.1.29",
+    "truffle-flattener": "^1.4.4",
+    "truffle-hdwallet-provider": "^1.0.17",
+    "truffle-plugin-verify": "^0.3.11",
+    "truffle-typings": "^1.0.8",
+    "ts-node": "^8.10.2",
+    "tslint": "^6.1.2",
+    "typechain": "^1.0.5",
+    "typechain-target-truffle": "^1.0.2",
+    "typescript": "^3.9.5"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^3.0.2"
+  }
+}
