@@ -1,7 +1,7 @@
 # @file Slither CI
 # @version 2021-02
 # @
-name: Security-checks
+name: Slither
 on:
   push:
     branches: [ master ]
@@ -19,7 +19,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Nodejs 14.x
         uses: actions/setup-node@v2
-         with:
+        with:
          node-version: "14.x"
          check-latest: true
 
@@ -43,9 +43,9 @@ jobs:
         run: |
           UNIQUE_VERSIONS=$(git grep -h '^pragma solidity' contracts/* | sort -u | wc -l)
           expr "$UNIQUE_VERSIONS = 1" # Quoting fixes whitespace from wc command
+          slither ./contracts --filter-paths="@openzeppelin|WETH9.sol|@boringcrypto|uniswapV2" --exclude naming-convention >>output/slither_report.txt 2>&1 || true
          # more complicated example
          # slither --exclude=divide-before-multiply,unused-return,timestamp,naming-convention,pragma,solc-version,external-function,reentrancy-benign,reentrancy-no-eth,arbitrary-send,incorrect-equality,reentrancy-events,assembly,uninitialized-local --filter-paths="@openzeppelin|WETH9.sol|uniswapV2" 
-          slither ./contracts --filter-paths="@openzeppelin|WETH9.sol|@boringcrypto|uniswapV2" --exclude naming-convention >>output/slither_report.txt 2>&1 || true
       - name: Store the report
         uses: actions/upload-artifact@v2
         with:
